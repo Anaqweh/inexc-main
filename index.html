@@ -1060,6 +1060,7 @@ function mapDbCourseToHome(c, i, certificates) {
     cert: n.cert || c.cert || 'شهادة INEXC', paid,
     price: paid ? (Number(c.price) || 0) : 0,
     days: c.days || (10 + i), career_paths: c.career_paths || null,
+    start_date: c.start_date || null,
     objectives: n.objectives, outcomes: n.outcomes, what_you_learn: n.what_you_learn,
     course_method: n.course_method, target_audience: n.target_audience,
     requirements: n.requirements, certificates: certificates || []
@@ -1171,6 +1172,11 @@ function tick() {
 
 function buildDeadlines() {
   deadlines = courses.map((c, i) => {
+    if (c.start_date) {
+      const d = new Date(c.start_date);
+      d.setHours(23, 59, 59, 0);
+      return d;
+    }
     const d = new Date();
     d.setDate(d.getDate() + c.days);
     d.setHours(d.getHours() + (i * 3) % 24);
