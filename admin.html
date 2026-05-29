@@ -6067,6 +6067,10 @@ https://www.inexctraining.com/certificate.html
             <label for="courseEndDate">تاريخ نهاية الدورة</label>
             <input type="date" id="courseEndDate">
           </div>
+          <div class="form-group">
+            <label for="courseMaxSeats">عدد المقاعد المسموح بالتسجيل</label>
+            <input type="number" id="courseMaxSeats" min="1" placeholder="مثال: 50">
+          </div>
           <div class="form-group" id="certificatesGroup">
             <label>الشهادات المرتبطة بهذه الدورة</label>
             <p style="font-size:0.85rem;color:var(--text-muted);margin:0 0 12px;line-height:1.7;">
@@ -6367,6 +6371,7 @@ https://www.inexctraining.com/certificate.html
         career_paths: row.career_paths || null,
         start_date: row.start_date || null,
         end_date: row.end_date || null,
+        max_seats: Number(row.max_seats) || null,
         created_at: row.created_at || null,
         updated_at: row.updated_at || row.created_at || null
       };
@@ -6387,7 +6392,8 @@ https://www.inexctraining.com/certificate.html
         requirements: course.requirements || '',
         career_paths: course.career_paths && course.career_paths.length ? course.career_paths : null,
         start_date: course.start_date || null,
-        end_date: course.end_date || null
+        end_date: course.end_date || null,
+        max_seats: course.max_seats ? Number(course.max_seats) : null
       };
     }
 
@@ -9918,6 +9924,7 @@ https://www.inexctraining.com/certificate.html
       document.getElementById('courseRequirements').value = course.requirements || '';
       document.getElementById('courseStartDate').value = course.start_date || '';
       document.getElementById('courseEndDate').value = course.end_date || '';
+      document.getElementById('courseMaxSeats').value = course.max_seats || '';
       togglePriceField();
       await loadCourseCertificates(course.id);
       openModal('courseModal');
@@ -10049,7 +10056,8 @@ https://www.inexctraining.com/certificate.html
         target_audience: document.getElementById('courseAudience').value.trim(),
         requirements: document.getElementById('courseRequirements').value.trim(),
         start_date: document.getElementById('courseStartDate').value || null,
-        end_date: document.getElementById('courseEndDate').value || null
+        end_date: document.getElementById('courseEndDate').value || null,
+        max_seats: Number(document.getElementById('courseMaxSeats').value) || null
       });
       const payload = id ? basePayload : { ...basePayload, status: 'active' };
       const certificatesData = readCourseCertificatesFromForm();
